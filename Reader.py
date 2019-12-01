@@ -1,5 +1,8 @@
 import re
-
+from Types import(
+    Symbol
+)
+ 
 class MalData:
     data_type = None
     data = None
@@ -36,6 +39,8 @@ def pr_str(node):
         return "(" + " ".join(buffer) + ")"
     elif isinstance(node, MalData):
         return str(node.data)
+    else:
+        return node
 
 def read_atom(reader):
 
@@ -47,7 +52,8 @@ def read_atom(reader):
         return int(token)
     elif re.match(string_re, token):
         return token
-    return token
+
+    return Symbol(token)
 
 def read_form(reader):
 
@@ -62,7 +68,7 @@ def read_form(reader):
             buffer.data_type = 'INT'
         elif type(buffer.data) == str:
             buffer.data_type = 'STR'
-        else:
+        elif type(buffer.data) == Symbol:
             buffer.data_type = 'SYM'
 
         reader.next()
