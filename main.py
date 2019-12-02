@@ -9,12 +9,11 @@ def int_eval(arg, env):
 
     if type(arg) != list:
         return Eval.eval_ast(arg, env)
-    else:
-        if len(arg) == 0:
-            return arg
-        else:
-            buffer = Eval.eval_ast(arg, env)
-            return buffer[0](buffer[1].data, buffer[2].data)
+    elif len(arg) == 0:
+        return arg
+    elif len(arg) > 0:
+        buffer = Eval.eval_ast(arg, env)
+        return Eval.apply(buffer[0], [buffer[1], buffer[2]])
 
 def int_print(arg):
 
@@ -30,13 +29,17 @@ def rep(arg):
         )
     )
 
-while True:
-    line = input('user> ')
-    buffer = int_read(line)
-    repl_env = {'+': lambda a,b: a+b,
+if __name__ == "__main__":
+    
+    while True:
+        line = input('user> ')
+        buffer = int_read(line)
+        repl_env = {
+            '+': lambda a,b: a+b,
             '-': lambda a,b: a-b,
             '*': lambda a,b: a*b,
-            '/': lambda a,b: int(a/b)}
+            '/': lambda a,b: a/b
+        }
 
-    buffer = int_eval(buffer, repl_env)
-    int_print(buffer)
+        buffer = int_eval(buffer, repl_env)
+        int_print(buffer)
