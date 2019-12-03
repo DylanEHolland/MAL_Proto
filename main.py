@@ -1,3 +1,4 @@
+import Env
 import Eval
 import Reader
 
@@ -34,12 +35,11 @@ if __name__ == "__main__":
     while True:
         line = input('user> ')
         buffer = int_read(line)
-        repl_env = {
-            '+': lambda a,b: a+b,
-            '-': lambda a,b: a-b,
-            '*': lambda a,b: a*b,
-            '/': lambda a,b: a/b
-        }
+        repl_env = Env.Env()
+        repl_env.set('+', lambda a,b: a+b)
+        repl_env.set('-', lambda a,b: a-b)
+        repl_env.set('*', lambda a,b: a*b)
+        repl_env.set('/', lambda a,b: a/b)
 
         buffer = int_eval(buffer, repl_env)
         int_print(buffer)
