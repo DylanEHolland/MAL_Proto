@@ -6,17 +6,20 @@ class Env:
 
     def find(self, symbol):
         if symbol in self.data:
-            return self.data
-        else:
-            if self.outer is not None:
-                self.outer.find(symbol)
-            else: 
-                raise NameError("Function not found")
+            return self
+        elif self.outer is not None:
+            return self.outer.find(symbol)
+        else: 
+            return None
 
     def set(self, symbol, arg):
         self.data[symbol] = arg
+        return arg
 
     def get(self, symbol):
         
         buffer = self.find(symbol)
-        return buffer[symbol]
+        if not buffer:
+            raise NameError("%s not found" % symbol)
+        else:
+            return buffer.data[symbol]

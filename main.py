@@ -1,6 +1,7 @@
 import Env
 import Eval
 import Reader
+import REPL_readline
 
 def int_read(arg):
 
@@ -13,8 +14,12 @@ def int_eval(arg, env):
     elif len(arg) == 0:
         return arg
     elif len(arg) > 0:
-        buffer = Eval.eval_ast(arg, env)
-        return Eval.apply(buffer[0], [buffer[1], buffer[2]])
+        if arg[0].data == "def!":
+            result = Eval.eval_ast(arg[2], env)
+            return env.set(arg[1].data, result)
+        else:
+            buffer = Eval.eval_ast(arg, env)
+            return Eval.apply(buffer[0], [buffer[1], buffer[2]], env)
 
 def int_print(arg):
 
@@ -33,7 +38,7 @@ def rep(arg):
 if __name__ == "__main__":
     
     while True:
-        line = input('user> ')
+        line = REPL_readline.readline()
         buffer = int_read(line)
         repl_env = Env.Env()
         repl_env.set('+', lambda a,b: a+b)
