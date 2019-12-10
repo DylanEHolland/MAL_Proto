@@ -36,11 +36,10 @@ def rep(arg):
     )
 
 if __name__ == "__main__":
-    
+    repl_env = Env.Env()
     while True:
         line = REPL_readline.readline()
         buffer = int_read(line)
-        repl_env = Env.Env()
         repl_env.set('+', lambda a,b: a+b)
         repl_env.set('-', lambda a,b: a-b)
         repl_env.set('*', lambda a,b: a*b)

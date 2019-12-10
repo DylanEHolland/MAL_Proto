@@ -5,6 +5,7 @@ class Env:
         self.outer = outer
 
     def find(self, symbol):
+
         if symbol in self.data:
             return self
         elif self.outer is not None:
@@ -13,6 +14,7 @@ class Env:
             return None
 
     def set(self, symbol, arg):
+
         self.data[symbol] = arg
         return arg
 
