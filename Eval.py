@@ -20,7 +20,7 @@ def eval_ast(arg, env):
 
         return buffer
     else:
-        if arg.data_type == 'SYM':
+        if isinstance(arg, Reader.MalData) and arg.data_type == 'SYM':
             #if arg.data in env.data:
             return env.get(arg.data)
         else:
