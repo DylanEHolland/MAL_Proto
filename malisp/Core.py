@@ -21,6 +21,13 @@ def int_eval(arg, env):
             result = Eval.eval_ast(arg[2], env)
             result = int_eval(result, env)
             return env.set(arg[1].data, result)
+        elif arg[0].data == "let*":
+            new_env = Env.Env(outer = env)
+            for n in range(0, len(arg[1]), 2):
+                new_env.set(arg[1][n].data, arg[1][n+1].data)
+
+            
+            #return Eval.eval_ast(arg[2], new_env)
         else:
             buffer = Eval.eval_ast(arg, env)
             return Eval.apply(buffer[0], [buffer[1], buffer[2]], env)
